@@ -1,0 +1,145 @@
+/* ── ปุ่มจิ้มเหมียว ─────────────────────────────── */
+.cat-poke {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  line-height: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.cat-poke:hover {
+  transform: scale(1.08);
+}
+.cat-poke:active {
+  transform: scale(0.92) rotate(-6deg);
+}
+.cat-poke:focus-visible {
+  outline: 2px solid #2f5d50;
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+/* เด้งตอนเปลี่ยนเป็นรีแอค */
+.cat-poke.is-reacting .cat-body {
+  animation: cat-hop 0.5s ease;
+}
+
+/* ── การเคลื่อนไหวพื้นฐาน ──────────────────────── */
+.cat-body {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: cat-bob 3.4s ease-in-out infinite;
+}
+@keyframes cat-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+@keyframes cat-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-13px);
+  }
+}
+
+.cat-tail {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: cat-sway 2.8s ease-in-out infinite;
+}
+@keyframes cat-sway {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(8deg);
+  }
+}
+
+/* ── ของประกอบแต่ละอารมณ์ ─────────────────────── */
+.cat-hearts path {
+  animation: cat-float 1.4s ease-out infinite;
+}
+.cat-hearts path:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.cat-hearts path:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes cat-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.6);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px) scale(1);
+  }
+}
+
+.cat-zzz text {
+  animation: cat-float 2.6s ease-out infinite;
+}
+.cat-zzz text:nth-child(2) {
+  animation-delay: 0.6s;
+}
+
+.cat-think circle {
+  animation: cat-pop 1.5s ease-in-out infinite;
+}
+.cat-think circle:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.cat-think circle:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes cat-pop {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.cat-spark,
+.cat-anger {
+  animation: cat-blink-op 0.6s steps(2) infinite;
+}
+@keyframes cat-blink-op {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ── เคารพการตั้งค่าลดการเคลื่อนไหวของเครื่อง ── */
+@media (prefers-reduced-motion: reduce) {
+  .cat-body,
+  .cat-tail,
+  .cat-hearts path,
+  .cat-zzz text,
+  .cat-think circle,
+  .cat-spark,
+  .cat-anger {
+    animation: none;
+  }
+  .cat-poke {
+    transition: none;
+  }
+}

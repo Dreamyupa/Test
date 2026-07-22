@@ -1,7 +1,9 @@
+import { useEffect, useRef, useState } from 'react';
 import type { Task, Lane, FocusBucket } from '../types';
 import { AddTaskBar } from './AddTaskBar';
 import { TaskRow } from './TaskRow';
 import { PickForMe } from './PickForMe';
+import { Meow } from './cat';
 
 interface Props {
   tasks: Task[];
@@ -23,11 +25,26 @@ export function Home({
   const commit = tasks.filter((t) => t.lane === 'commit');
   const wish = tasks.filter((t) => t.lane === 'wish');
 
+  // สิ่งที่เหมียวพูดตอนถูกจิ้ม (หายไปเองใน ~1.8 วิ กลับไปเป็นคำโปรย)
+  const [meowLine, setMeowLine] = useState<string | null>(null);
+  const lineTimer = useRef<number | undefined>(undefined);
+  const say = (line: string) => {
+    setMeowLine(line);
+    window.clearTimeout(lineTimer.current);
+    lineTimer.current = window.setTimeout(() => setMeowLine(null), 1800);
+  };
+  useEffect(() => () => window.clearTimeout(lineTimer.current), []);
+
   return (
     <div className="mx-auto flex min-h-svh w-full max-w-md flex-col gap-4 px-4 pb-16 pt-6">
-      <header className="px-1">
-        <h1 className="text-xl font-semibold text-pine">OneThing</h1>
-        <p className="text-sm text-sage">ว่างเมื่อไหร่ ให้แอปเลือกให้</p>
+      <header className="flex items-center gap-3 px-1">
+        <Meow mood="sleep" size={76} onPoke={say} />
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl font-semibold text-pine">OneThing</h1>
+          <div className="relative mt-1 inline-block rounded-2xl rounded-bl-sm bg-surface px-3 py-1.5 text-sm text-ink shadow-sm ring-1 ring-hairline">
+            {meowLine ?? 'ว่างเมื่อไหร่ ให้แอปเลือกให้'}
+          </div>
+        </div>
       </header>
 
       <AddTaskBar onAdd={onAdd} />
